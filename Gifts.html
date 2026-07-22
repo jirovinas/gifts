@@ -1,0 +1,904 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Happy Monthsary My Love 🎁🌸</title>
+  <!-- Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Romantic Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+  <style>
+    body {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      background: radial-gradient(circle at center, #fff0f5 0%, #ffd1dc 40%, #fbcfe8 100%);
+      overflow-x: hidden;
+      min-height: 100vh;
+      user-select: none;
+    }
+
+    .font-romantic {
+      font-family: 'Dancing Script', cursive;
+    }
+
+    /* Page View Transitions */
+    .page {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: space-between;
+      padding: 1.5rem 1rem;
+      transition: opacity 0.6s ease-in-out, transform 0.6s ease-in-out;
+    }
+
+    .page-hidden {
+      opacity: 0;
+      pointer-events: none;
+      transform: scale(0.96);
+    }
+
+    .page-active {
+      opacity: 1;
+      pointer-events: auto;
+      transform: scale(1);
+    }
+
+    /* 3D Gift Box Component */
+    .scene {
+      perspective: 800px;
+    }
+
+    .gift-box-wrapper {
+      position: relative;
+      width: 150px;
+      height: 150px;
+      transform-style: preserve-3d;
+      transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+    }
+
+    .gift-box-wrapper:hover {
+      transform: translateY(-8px) rotateY(8deg);
+    }
+
+    .box-body {
+      position: absolute;
+      bottom: 0;
+      width: 135px;
+      height: 100px;
+      left: 7.5px;
+      border-radius: 0 0 14px 14px;
+      box-shadow: 0 15px 25px rgba(0, 0, 0, 0.2), inset 0 -8px 15px rgba(0, 0, 0, 0.15);
+      z-index: 10;
+    }
+
+    /* Ribbon Vertical */
+    .box-body::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 26px;
+      height: 100%;
+      background: linear-gradient(90deg, #fbbf24, #f59e0b, #d97706);
+      box-shadow: 0 0 8px rgba(0,0,0,0.15);
+    }
+
+    /* Ribbon Horizontal */
+    .box-body::after {
+      content: '';
+      position: absolute;
+      top: 50%;
+      left: 0;
+      transform: translateY(-50%);
+      width: 100%;
+      height: 26px;
+      background: linear-gradient(180deg, #fbbf24, #f59e0b, #d97706);
+      box-shadow: 0 0 8px rgba(0,0,0,0.15);
+    }
+
+    .box-lid {
+      position: absolute;
+      top: 25px;
+      left: 0;
+      width: 150px;
+      height: 32px;
+      border-radius: 10px;
+      box-shadow: 0 6px 15px rgba(0, 0, 0, 0.2);
+      z-index: 20;
+      transform-origin: top center;
+      transition: transform 0.7s cubic-bezier(0.34, 1.56, 0.64, 1), opacity 0.5s ease;
+    }
+
+    .box-lid::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 30px;
+      height: 100%;
+      background: linear-gradient(90deg, #fbbf24, #f59e0b, #d97706);
+    }
+
+    .box-bow {
+      position: absolute;
+      top: -22px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 52px;
+      height: 24px;
+      z-index: 25;
+    }
+
+    .bow-left, .bow-right {
+      position: absolute;
+      width: 24px;
+      height: 24px;
+      border: 4px solid #f59e0b;
+      border-radius: 50% 50% 0 50%;
+      background: #fbbf24;
+      box-shadow: 0 3px 8px rgba(0,0,0,0.15);
+    }
+
+    .bow-left { left: 2px; transform: rotate(-25deg); }
+    .bow-right { right: 2px; border-radius: 50% 50% 50% 0; transform: rotate(25deg); }
+    .bow-center {
+      position: absolute;
+      top: 7px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 12px;
+      height: 12px;
+      background: #d97706;
+      border-radius: 50%;
+    }
+
+    /* Individual Box Themes */
+    /* Box 1: Pink Rose */
+    .theme-box-1 .box-body { background: linear-gradient(135deg, #f43f5e 0%, #e11d48 100%); }
+    .theme-box-1 .box-lid { background: linear-gradient(135deg, #fb7185 0%, #f43f5e 100%); }
+
+    /* Box 2: Deep Crimson Gold */
+    .theme-box-2 .box-body { background: linear-gradient(135deg, #be123c 0%, #881337 100%); }
+    .theme-box-2 .box-lid { background: linear-gradient(135deg, #e11d48 0%, #be123c 100%); }
+
+    /* Box 3: Violet Lavender */
+    .theme-box-3 .box-body { background: linear-gradient(135deg, #8b5cf6 0%, #6d28d9 100%); }
+    .theme-box-3 .box-lid { background: linear-gradient(135deg, #a78bfa 0%, #8b5cf6 100%); }
+
+    .opening .box-lid {
+      transform: translateY(-160px) rotate(-25deg) scale(0.8);
+      opacity: 0;
+    }
+
+    .box-glow {
+      position: absolute;
+      bottom: 15px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 120px;
+      height: 80px;
+      background: radial-gradient(circle, rgba(255, 236, 170, 0.9) 0%, rgba(244, 63, 94, 0) 70%);
+      opacity: 0;
+      transition: opacity 0.5s ease;
+      z-index: 4;
+      pointer-events: none;
+    }
+
+    .opening .box-glow {
+      opacity: 1;
+    }
+
+    /* Flowers Page Styling */
+    .stem-path {
+      stroke-dasharray: 280;
+      stroke-dashoffset: 280;
+      transition: stroke-dashoffset 1.5s cubic-bezier(0.25, 1, 0.5, 1);
+    }
+
+    .page-active .stem-path {
+      stroke-dashoffset: 0;
+    }
+
+    .flower-head {
+      transform-box: fill-box;
+      transform-origin: center bottom;
+      transform: scale(0);
+      transition: transform 1.2s cubic-bezier(0.34, 1.6, 0.64, 1);
+      cursor: pointer;
+    }
+
+    .flower-head:hover {
+      filter: drop-shadow(0 0 14px rgba(244, 63, 94, 0.8));
+    }
+
+    .page-active .flower-delay-1 { transition-delay: 0.3s; transform: scale(1); }
+    .page-active .flower-delay-2 { transition-delay: 0.5s; transform: scale(1); }
+    .page-active .flower-delay-3 { transition-delay: 0.7s; transform: scale(1); }
+    .page-active .flower-delay-4 { transition-delay: 0.9s; transform: scale(1); }
+    .page-active .flower-delay-5 { transition-delay: 1.1s; transform: scale(1); }
+
+    .breeze-sway-left {
+      animation: gentleSwayLeft 4.5s ease-in-out infinite alternate;
+    }
+
+    .breeze-sway-right {
+      animation: gentleSwayRight 5s ease-in-out infinite alternate;
+    }
+
+    @keyframes gentleSwayLeft {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(-3deg) translateY(-2px); }
+    }
+
+    @keyframes gentleSwayRight {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(3deg) translateY(-2px); }
+    }
+
+    /* Floating Particles */
+    .heart-particle {
+      position: absolute;
+      pointer-events: none;
+      animation: floatUp 2.8s cubic-bezier(0.25, 1, 0.5, 1) forwards;
+      z-index: 60;
+    }
+
+    @keyframes floatUp {
+      0% {
+        opacity: 1;
+        transform: translateY(0) scale(0.4) rotate(0deg);
+      }
+      100% {
+        opacity: 0;
+        transform: translateY(-260px) scale(1.4) rotate(45deg);
+      }
+    }
+
+    .falling-petal {
+      position: fixed;
+      top: -20px;
+      pointer-events: none;
+      z-index: 50;
+      animation: petalFall 6s linear forwards;
+    }
+
+    @keyframes petalFall {
+      0% {
+        transform: translateY(0) rotate(0deg) translateX(0);
+        opacity: 0.9;
+      }
+      50% {
+        transform: translateY(50vh) rotate(180deg) translateX(30px);
+      }
+      100% {
+        transform: translateY(105vh) rotate(360deg) translateX(-30px);
+        opacity: 0;
+      }
+    }
+
+    /* Transition Flash Overlay */
+    #transitionCurtain {
+      position: fixed;
+      inset: 0;
+      background: radial-gradient(circle, #fff 0%, #ffe4e6 100%);
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.5s ease;
+      z-index: 100;
+    }
+
+    /* Polaroid Cards */
+    .polaroid-card {
+      background: #ffffff;
+      padding: 10px 10px 18px 10px;
+      box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.12), 0 8px 10px -6px rgba(0, 0, 0, 0.08);
+      transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+      cursor: pointer;
+      position: relative;
+    }
+
+    .polaroid-card:hover {
+      transform: scale(1.08) rotate(0deg) !important;
+      z-index: 30;
+      box-shadow: 0 20px 30px -10px rgba(225, 29, 72, 0.25);
+    }
+
+    .polaroid-tape {
+      position: absolute;
+      top: -10px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 50px;
+      height: 16px;
+      background: rgba(255, 255, 255, 0.75);
+      backdrop-filter: blur(2px);
+      border: 1px solid rgba(244, 114, 182, 0.25);
+      box-shadow: 0 2px 4px rgba(0,0,0,0.06);
+      z-index: 10;
+    }
+
+    /* Toast Compliment Bubble */
+    #flowerToast {
+      transition: opacity 0.3s ease, transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+    }
+  </style>
+</head>
+<body class="relative overflow-hidden">
+
+  <!-- Transition Flash Overlay -->
+  <div id="transitionCurtain"></div>
+
+  <!-- Ambient Background Sparkles -->
+  <div id="bgSparkles" class="absolute inset-0 pointer-events-none z-0"></div>
+
+  <!-- Interactive Toast Notification Popup -->
+  <div id="flowerToast" class="fixed top-6 left-1/2 -translate-x-1/2 z-50 opacity-0 pointer-events-none transform -translate-y-4 bg-white/95 backdrop-blur-md border border-rose-200 px-5 py-2.5 rounded-full shadow-xl flex items-center gap-2.5 text-xs md:text-sm font-semibold text-rose-600">
+    <span id="toastIcon">🌸</span>
+    <span id="toastMessage">You opened a gift!</span>
+  </div>
+
+  <!-- MAIN HUB: 3 GIFT BOX SELECTION STAGE -->
+  <section id="hubPage" class="page page-active z-10 overflow-y-auto">
+    <header class="text-center mt-3 mb-2">
+      <span class="bg-rose-100 text-rose-600 text-xs font-semibold px-4 py-1.5 rounded-full uppercase tracking-widest shadow-sm border border-rose-200">
+        Happy Monthsary My Baby 💕
+      </span>
+      <h1 class="text-3xl md:text-5xl font-bold font-romantic text-rose-700 mt-2 tracking-wide drop-shadow-sm">
+        3 Special Surprises For You
+      </h1>
+      <p class="text-gray-600 text-xs md:text-sm mt-1 font-medium max-w-md mx-auto">
+        I have 3 gifts for you! Tap each gift box to open your surprises 👇
+      </p>
+    </header>
+
+    <!-- 3 Gift Boxes Grid -->
+    <main class="my-auto flex flex-col md:flex-row items-center justify-center gap-6 md:gap-8 scene w-full max-w-4xl py-4 px-2">
+      
+      <!-- GIFT BOX 1: FLOWERS -->
+      <div id="boxContainer1" class="cursor-pointer flex flex-col items-center group" onclick="openGiftBox(1)">
+        <div class="gift-box-wrapper theme-box-1" id="giftBoxWrapper1">
+          <div class="box-glow"></div>
+          <div class="box-lid">
+            <div class="box-bow">
+              <div class="bow-left"></div>
+              <div class="bow-right"></div>
+              <div class="bow-center"></div>
+            </div>
+          </div>
+          <div class="box-body"></div>
+        </div>
+        <p class="text-xs font-semibold text-rose-600 mt-3 group-hover:scale-105 transition-transform">
+          🌸 Tap to Unbox Bouquet
+        </p>
+      </div>
+
+      <!-- GIFT BOX 2: LOVE MESSAGE -->
+      <div id="boxContainer2" class="cursor-pointer flex flex-col items-center group" onclick="openGiftBox(2)">
+        <div class="gift-box-wrapper theme-box-2" id="giftBoxWrapper2">
+          <div class="box-glow"></div>
+          <div class="box-lid">
+            <div class="box-bow">
+              <div class="bow-left"></div>
+              <div class="bow-right"></div>
+              <div class="bow-center"></div>
+            </div>
+          </div>
+          <div class="box-body"></div>
+        </div>
+        <p class="text-xs font-semibold text-rose-600 mt-3 group-hover:scale-105 transition-transform">
+          💌 Tap to Read Letter
+        </p>
+      </div>
+
+      <!-- GIFT BOX 3: MEMORIES -->
+      <div id="boxContainer3" class="cursor-pointer flex flex-col items-center group" onclick="openGiftBox(3)">
+        <div class="gift-box-wrapper theme-box-3" id="giftBoxWrapper3">
+          <div class="box-glow"></div>
+          <div class="box-lid">
+            <div class="box-bow">
+              <div class="bow-left"></div>
+              <div class="bow-right"></div>
+              <div class="bow-center"></div>
+            </div>
+          </div>
+          <div class="box-body"></div>
+        </div>
+        <p class="text-xs font-semibold text-violet-600 mt-3 group-hover:scale-105 transition-transform">
+          📸 Tap to View Memories
+        </p>
+      </div>
+
+    </main>
+
+    <footer class="text-xs text-rose-400 font-medium pb-2 text-center">
+      Crafted with ❤️ by your programmer
+    </footer>
+  </section>
+
+  <!-- GIFT 1 PAGE: FLOWERS BOUQUET -->
+  <section id="flowersPage" class="page page-hidden z-20 overflow-y-auto">
+    <header class="text-center mt-2">
+      <span class="bg-rose-100 text-rose-600 text-xs font-semibold px-4 py-1 rounded-full uppercase tracking-widest border border-rose-200">
+        Gift #1 🌸
+      </span>
+      <h2 class="text-3xl md:text-4xl font-bold font-romantic text-rose-700 mt-1">
+        A Bouquet That Never Fades
+      </h2>
+      <p class="text-xs text-rose-500 font-medium">
+        Tap the tulips to reveal sweet love notes 💕
+      </p>
+    </header>
+
+    <main class="my-auto flex flex-col items-center justify-center w-full max-w-md px-2">
+      <!-- Interactive SVG Bouquet -->
+      <div class="relative w-full max-w-xs aspect-[4/5] flex items-center justify-center my-2">
+        <svg viewBox="0 0 300 380" class="w-full h-full drop-shadow-xl overflow-visible">
+          <!-- Back Wrapping Paper -->
+          <g class="breeze-sway-left">
+            <path d="M 50 180 L 150 360 L 250 180 L 210 130 L 90 130 Z" fill="#fbcfe8" opacity="0.9" />
+            <path d="M 65 190 L 150 360 L 235 190 L 195 140 L 105 140 Z" fill="#f472b6" opacity="0.85" />
+          </g>
+
+          <!-- Flower Stems -->
+          <g stroke="#16a34a" stroke-width="4" stroke-linecap="round" fill="none">
+            <path d="M150,280 Q110,210 80,130" class="stem-path" />
+            <path d="M150,280 Q130,190 115,95" class="stem-path" />
+            <path d="M150,280 Q150,180 150,70" class="stem-path" />
+            <path d="M150,280 Q170,190 185,95" class="stem-path" />
+            <path d="M150,280 Q190,210 220,130" class="stem-path" />
+          </g>
+
+          <!-- Leaves -->
+          <g fill="#22c55e" opacity="0.9">
+            <path d="M140,240 Q90,210 100,160 Q125,190 140,240 Z" />
+            <path d="M160,240 Q210,210 200,160 Q175,190 160,240 Z" />
+            <path d="M145,210 Q110,170 120,130 Q138,160 145,210 Z" />
+            <path d="M155,210 Q190,170 180,130 Q162,160 155,210 Z" />
+          </g>
+
+          <!-- Flower Heads (wrapped in static <g transform="..."> to preserve coordinates) -->
+          <!-- Tulip 1 Outer Left -->
+          <g transform="translate(80, 130)">
+            <g class="flower-head flower-delay-1" data-msg="Salamat sa lahat ng ngiti na binibigay mo sa'kin.✨">
+              <path d="M -12 -15 L 0 -45 L 12 -15 Z" fill="#9f1239" />
+              <path d="M-18,0 C-25,-25 -10,-45 0,-50 C10,-45 25,-25 18,0 C10,10 -10,10 -18,0 Z" fill="#e11d48" />
+              <path d="M-10,-5 C-18,-20 -5,-38 0,-46 C5,-38 18,-20 10,-5 C5,5 -5,5 -10,-5 Z" fill="#fb7185" />
+            </g>
+          </g>
+
+          <!-- Tulip 2 Inner Left -->
+          <g transform="translate(115, 95)">
+            <g class="flower-head flower-delay-2" data-msg="Hindi ako magsasawang piliin ka araw-araw.💌">
+              <path d="M -14 -18 L 0 -52 L 14 -18 Z" fill="#701a75" />
+              <path d="M-20,0 C-28,-30 -12,-55 0,-60 C12,-55 28,-30 20,0 C12,12 -12,12 -20,0 Z" fill="#c026d3" />
+              <path d="M-12,-5 C-20,-25 -6,-45 0,-53 C6,-45 20,-25 12,-5 C6,6 -6,6 -12,-5 Z" fill="#e879f9" />
+            </g>
+          </g>
+
+          <!-- Tulip 3 Center Main -->
+          <g transform="translate(150, 70)">
+            <g class="flower-head flower-delay-3" data-msg="Salamat sa pagpili sa'kin araw-araw.✨">
+              <path d="M -16 -20 L 0 -58 L 16 -20 Z" fill="#881337" />
+              <path d="M-22,0 C-30,-32 -14,-58 0,-65 C14,-58 30,-32 22,0 C14,14 -14,14 -22,0 Z" fill="#f43f5e" />
+              <path d="M-14,-6 C-22,-28 -8,-48 0,-58 C8,-48 22,-28 14,-6 C8,8 -8,8 -14,-6 Z" fill="#fda4af" />
+            </g>
+          </g>
+
+          <!-- Tulip 4 Inner Right -->
+          <g transform="translate(185, 95)">
+            <g class="flower-head flower-delay-4" data-msg="Sana lagi kitang mapasaya, tulad ng pagpapasaya mo sa'kin.🫶">
+              <path d="M -14 -18 L 0 -52 L 14 -18 Z" fill="#831843" />
+              <path d="M-20,0 C-28,-30 -12,-55 0,-60 C12,-55 28,-30 20,0 C12,12 -12,12 -20,0 Z" fill="#db2777" />
+              <path d="M-12,-5 C-20,-25 -6,-45 0,-53 C6,-45 20,-25 12,-5 C6,6 -6,6 -12,-5 Z" fill="#f472b6" />
+            </g>
+          </g>
+
+          <!-- Tulip 5 Outer Right -->
+          <g transform="translate(220, 130)">
+            <g class="flower-head flower-delay-5" data-msg="I love you more than anything🌷">
+              <path d="M -12 -15 L 0 -45 L 12 -15 Z" fill="#881337" />
+              <path d="M-18,0 C-25,-25 -10,-45 0,-50 C10,-45 25,-25 18,0 C10,10 -10,10 -18,0 Z" fill="#be123c" />
+              <path d="M-10,-5 C-18,-20 -5,-38 0,-46 C5,-38 18,-20 10,-5 C5,5 -5,5 -10,-5 Z" fill="#f43f5e" />
+            </g>
+          </g>
+
+          <!-- Front Wrapping & Ribbon Knot -->
+          <g>
+            <path d="M 100 230 L 150 360 L 200 230 Z" fill="#f472b6" opacity="0.95" />
+            <!-- Ribbon Knot & Tails -->
+            <path d="M 120 275 C 110 295 100 320 115 340 C 130 320 135 295 130 275 Z" fill="#fbbf24" />
+            <path d="M 180 275 C 190 295 200 320 185 340 C 170 320 165 295 170 275 Z" fill="#fbbf24" />
+            <path d="M 125 265 Q 150 280 175 265 Q 185 290 150 310 Q 115 290 125 265 Z" fill="#f59e0b" />
+            <circle cx="150" cy="272" r="10" fill="#d97706" />
+          </g>
+        </svg>
+      </div>
+    </main>
+
+    <!-- Navigation Bar -->
+    <footer class="flex items-center gap-3 my-2">
+      <button onclick="showPage('hubPage')" class="text-xs font-semibold text-rose-600 bg-white/90 hover:bg-white backdrop-blur-sm px-4 py-2 rounded-full shadow-md border border-rose-100 transition-all active:scale-95 flex items-center gap-1">
+        <span>🎁</span> Back to Gifts
+      </button>
+    </footer>
+  </section>
+
+  <!-- GIFT 2 PAGE: LOVE MESSAGE -->
+  <section id="messagePage" class="page page-hidden z-20 overflow-y-auto">
+    <header class="text-center mt-2">
+      <span class="bg-rose-100 text-rose-600 text-xs font-semibold px-4 py-1 rounded-full uppercase tracking-widest border border-rose-200">
+        Gift #2 💌
+      </span>
+      <h2 class="text-3xl md:text-4xl font-bold font-romantic text-rose-700 mt-1">
+        To My Favorite Person 💕
+      </h2>
+      <p class="text-xs text-rose-500 font-medium">
+        A special message straight from my heart
+      </p>
+    </header>
+
+    <main class="w-full max-w-md my-auto px-2">
+      <div class="bg-white/90 backdrop-blur-md p-6 rounded-3xl shadow-2xl border border-rose-100 text-center relative">
+        <div class="text-5xl mb-3 animate-pulse">💖</div>
+        <h3 class="text-rose-600 font-romantic text-3xl font-bold mb-3">
+          Happy Monthsary, My Baby! 💕
+        </h3>
+        <p class="text-gray-700 text-sm leading-relaxed mb-5 font-medium">
+          Happy 1st Monthsary satin baby sana masaya ka sa kunting effort na ito. Salamat kasi araw-araw mo akong pinapasaya, at hindi mo alam kung gaano ako kasaya dahil nandiyan ka. Salamat sa pagmamahal, pag-aalaga, at sa palagi mong pagsuporta sa'kin. Salamat din dahil ikaw ang taong lagi kong nalalapitan at nakakapagpasaya sa'kin. Mahal na mahal kita.❤️
+        </p>
+
+        <div class="flex flex-col items-center gap-3">
+          <button id="showerPetalsBtn" class="w-full inline-flex items-center justify-center gap-2 bg-rose-500 hover:bg-rose-600 text-white text-xs font-semibold px-5 py-2.5 rounded-2xl shadow-md transition-all active:scale-95">
+            <span>✨</span> Shower Hearts & Petals
+          </button>
+          <div class="inline-flex items-center justify-center space-x-1 bg-rose-50 px-4 py-2 rounded-xl text-rose-600 text-xs font-semibold border border-rose-100">
+            <span>Forever & Always Yours 💕</span>
+          </div>
+        </div>
+      </div>
+    </main>
+
+    <!-- Navigation Bar -->
+    <footer class="flex items-center gap-3 my-2">
+      <button onclick="showPage('hubPage')" class="text-xs font-semibold text-rose-600 bg-white/90 hover:bg-white backdrop-blur-sm px-4 py-2 rounded-full shadow-md border border-rose-100 transition-all active:scale-95 flex items-center gap-1">
+        <span>🎁</span> Back to Gifts
+      </button>
+    </footer>
+  </section>
+
+  <!-- GIFT 3 PAGE: MEMORIES POLAROID GALLERY -->
+  <section id="memoriesPage" class="page page-hidden z-20 overflow-y-auto">
+    <header class="text-center mt-2">
+      <span class="bg-violet-100 text-violet-600 text-xs font-semibold px-4 py-1 rounded-full uppercase tracking-widest border border-violet-200">
+        Gift #3 📸
+      </span>
+      <h2 class="text-3xl md:text-4xl font-bold font-romantic text-violet-800 mt-1">
+        Our Precious Memories
+      </h2>
+      <p class="text-xs text-violet-500 font-medium">
+        Tap any Polaroid to view full picture 💕
+      </p>
+    </header>
+
+    <main class="w-full max-w-2xl my-auto px-2">
+      <!-- Polaroid Grid -->
+      <div class="grid grid-cols-1 sm:grid-cols-3 gap-6 w-full px-2 my-4">
+        
+        <!-- Polaroid 1 -->
+        <div class="polaroid-card -rotate-3 hover:rotate-0 rounded-sm" onclick="openPolaroidModal(0)">
+          <div class="polaroid-tape"></div>
+          <div class="w-full aspect-square bg-rose-50 overflow-hidden rounded-xs mb-2 relative group">
+            <img id="polaroid-img-0" src="First rides to Lucban.jpg" alt="First Ride to Lucban" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110" />
+            <div class="absolute inset-0 bg-rose-900/30 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center text-white text-xs font-semibold">🔍 View Memory</div>
+          </div>
+          <p id="polaroid-caption-0" class="font-romantic text-rose-700 text-lg text-center font-bold">First Ride to Lucban 🛵</p>
+        </div>
+
+        <!-- Polaroid 2 -->
+        <div class="polaroid-card rotate-2 hover:rotate-0 rounded-sm" onclick="openPolaroidModal(1)">
+          <div class="polaroid-tape"></div>
+          <div class="w-full aspect-square bg-rose-50 overflow-hidden rounded-xs mb-2 relative group">
+            <img id="polaroid-img-1" src="Abyad National ID.jpg" alt="My Favorite Smile" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110" />
+            <div class="absolute inset-0 bg-rose-900/30 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center text-white text-xs font-semibold">🔍 View Memory</div>
+          </div>
+          <p id="polaroid-caption-1" class="font-romantic text-rose-700 text-lg text-center font-bold">Abyad National ID 😊</p>
+        </div>
+
+        <!-- Polaroid 3 -->
+        <div class="polaroid-card -rotate-2 hover:rotate-0 rounded-sm" onclick="openPolaroidModal(2)">
+          <div class="polaroid-tape"></div>
+          <div class="w-full aspect-square bg-rose-50 overflow-hidden rounded-xs mb-2 relative group">
+            <img id="polaroid-img-2" src="Gala with friends.jpg" alt="Gala Together" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110" />
+            <div class="absolute inset-0 bg-rose-900/30 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center text-white text-xs font-semibold">🔍 View Memory</div>
+          </div>
+          <p id="polaroid-caption-2" class="font-romantic text-rose-700 text-lg text-center font-bold">Gala with Your Friends ✨</p>
+        </div>
+
+      </div>
+    </main>
+
+    <!-- Navigation Bar -->
+    <footer class="flex items-center gap-3 my-2">
+      <button onclick="showPage('hubPage')" class="text-xs font-semibold text-rose-600 bg-white/90 hover:bg-white backdrop-blur-sm px-4 py-2 rounded-full shadow-md border border-rose-100 transition-all active:scale-95 flex items-center gap-1">
+        <span>🎁</span> Back to All Gifts
+      </button>
+    </footer>
+  </section>
+
+  <!-- SINGLE POLAROID LIGHTBOX MODAL -->
+  <div id="polaroidModal" class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm opacity-0 pointer-events-none transition-opacity duration-300">
+    <div class="bg-white p-5 rounded-3xl shadow-2xl max-w-xs w-full text-center relative border border-rose-100 transform scale-90 transition-transform duration-300" id="polaroidModalCard">
+      <button onclick="closePolaroidModal()" class="absolute top-3 right-3 text-gray-400 hover:text-gray-600 bg-gray-100 w-8 h-8 rounded-full flex items-center justify-center text-sm font-bold">✕</button>
+
+      <div class="w-full aspect-square bg-rose-50 rounded-2xl overflow-hidden mb-3 shadow-inner">
+        <img id="modalImg" src="" alt="Memory Preview" class="w-full h-full object-cover" />
+      </div>
+
+      <h4 id="modalCaption" class="font-romantic text-rose-600 text-2xl font-bold mb-1">Caption</h4>
+      <p id="modalSubtext" class="text-xs text-gray-500 font-medium mb-4">Every picture with you holds a thousand sweet feelings.</p>
+
+      <button onclick="closePolaroidModal()" class="bg-rose-500 hover:bg-rose-600 text-white text-xs font-semibold px-6 py-2 rounded-xl shadow-md transition-all active:scale-95">
+        Close Memory 💕
+      </button>
+    </div>
+  </div>
+
+  <script>
+    const transitionCurtain = document.getElementById('transitionCurtain');
+    const bgSparkles = document.getElementById('bgSparkles');
+    const showerPetalsBtn = document.getElementById('showerPetalsBtn');
+    const flowerToast = document.getElementById('flowerToast');
+    const toastIcon = document.getElementById('toastIcon');
+    const toastMessage = document.getElementById('toastMessage');
+
+    let audioCtx = null;
+    let toastTimeout = null;
+
+    const polaroidData = [
+      {
+        caption: "Unang Biyahe Natin sa Lucban 🛵",
+        subtext: "Kahit simpleng biyahe lang, nagiging espesyal basta ikaw ang kasama ko."
+      },
+      {
+        caption: "Abyad National ID 😊",
+        subtext: "Kahit simpleng pag-aasikaso lang, naging espesyal ang araw na 'yon dahil kasama kita."
+      },
+      {
+        caption: "Gala Kasama ang mga Kaibigan Mo ✨",
+        subtext: "Bawat gala at tawanan natin ay nagiging mga alaala na iingatan ko habambuhay."
+      }
+    ];
+
+    const pages = {
+      1: 'flowersPage',
+      2: 'messagePage',
+      3: 'memoriesPage'
+    };
+
+    function showPage(targetPageId) {
+      transitionCurtain.style.opacity = '1';
+
+      setTimeout(() => {
+        document.querySelectorAll('.page').forEach(page => {
+          page.classList.remove('page-active');
+          page.classList.add('page-hidden');
+        });
+
+        const targetPage = document.getElementById(targetPageId);
+        if (targetPage) {
+          targetPage.classList.remove('page-hidden');
+          targetPage.classList.add('page-active');
+        }
+
+        setTimeout(() => {
+          transitionCurtain.style.opacity = '0';
+        }, 200);
+      }, 400);
+    }
+
+    function openGiftBox(boxNum) {
+      const wrapper = document.getElementById(`giftBoxWrapper${boxNum}`);
+      const container = document.getElementById(`boxContainer${boxNum}`);
+      const badge = document.getElementById(`badge${boxNum}`);
+
+      if (wrapper && container) {
+        container.classList.add('opening');
+        playRomanticChime();
+        createHeartParticles(container);
+
+        if (badge) badge.classList.remove('hidden');
+
+        setTimeout(() => {
+          showPage(pages[boxNum]);
+          setTimeout(() => {
+            container.classList.remove('opening');
+          }, 600);
+        }, 900);
+      } else {
+        showPage(pages[boxNum]);
+      }
+    }
+
+    function openPolaroidModal(index) {
+      const data = polaroidData[index];
+      const modal = document.getElementById('polaroidModal');
+      const modalCard = document.getElementById('polaroidModalCard');
+      const modalImg = document.getElementById('modalImg');
+      const modalCaption = document.getElementById('modalCaption');
+      const modalSubtext = document.getElementById('modalSubtext');
+
+      const sourceImg = document.getElementById(`polaroid-img-${index}`);
+      if (sourceImg) {
+        modalImg.src = sourceImg.src;
+      }
+      modalCaption.innerText = data.caption;
+      modalSubtext.innerText = data.subtext;
+
+      playPopSound();
+      triggerFallingPetals(5);
+
+      modal.classList.remove('opacity-0', 'pointer-events-none');
+      modalCard.classList.remove('scale-90');
+      modalCard.classList.add('scale-100');
+    }
+
+    function closePolaroidModal() {
+      const modal = document.getElementById('polaroidModal');
+      const modalCard = document.getElementById('polaroidModalCard');
+
+      modalCard.classList.remove('scale-100');
+      modalCard.classList.add('scale-90');
+      modal.classList.add('opacity-0', 'pointer-events-none');
+    }
+
+    /* Sound Generators */
+    function playRomanticChime() {
+      try {
+        if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+        if (audioCtx.state === 'suspended') audioCtx.resume();
+
+        const notes = [523.25, 659.25, 783.99, 1046.50, 1318.51, 1567.98];
+        notes.forEach((freq, idx) => {
+          const osc = audioCtx.createOscillator();
+          const gain = audioCtx.createGain();
+
+          osc.type = 'sine';
+          osc.frequency.setValueAtTime(freq, audioCtx.currentTime + idx * 0.08);
+
+          gain.gain.setValueAtTime(0, audioCtx.currentTime + idx * 0.08);
+          gain.gain.linearRampToValueAtTime(0.2, audioCtx.currentTime + idx * 0.08 + 0.04);
+          gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + idx * 0.08 + 1.0);
+
+          osc.connect(gain);
+          gain.connect(audioCtx.destination);
+
+          osc.start(audioCtx.currentTime + idx * 0.08);
+          osc.stop(audioCtx.currentTime + idx * 0.08 + 1.0);
+        });
+      } catch (e) {}
+    }
+
+    function playPopSound() {
+      try {
+        if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+        if (audioCtx.state === 'suspended') audioCtx.resume();
+
+        const osc = audioCtx.createOscillator();
+        const gain = audioCtx.createGain();
+        osc.type = 'sine';
+        osc.frequency.setValueAtTime(440, audioCtx.currentTime);
+        osc.frequency.exponentialRampToValueAtTime(880, audioCtx.currentTime + 0.1);
+
+        gain.gain.setValueAtTime(0.15, audioCtx.currentTime);
+        gain.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.1);
+
+        osc.connect(gain);
+        gain.connect(audioCtx.destination);
+        osc.start();
+        osc.stop(audioCtx.currentTime + 0.1);
+      } catch(e) {}
+    }
+
+    /* Particle Animations */
+    function createHeartParticles(anchorElement) {
+      const symbols = ['🌸', '💖', '✨', '🌹', '💕', '🌷', '🤍'];
+      const rect = anchorElement ? anchorElement.getBoundingClientRect() : { left: window.innerWidth / 2, top: window.innerHeight / 2, width: 0 };
+
+      for (let i = 0; i < 22; i++) {
+        setTimeout(() => {
+          const particle = document.createElement('div');
+          particle.className = 'heart-particle text-xl md:text-2xl';
+          particle.innerText = symbols[Math.floor(Math.random() * symbols.length)];
+
+          const randomX = (Math.random() - 0.5) * 180;
+          particle.style.left = `${rect.left + rect.width / 2 + randomX}px`;
+          particle.style.top = `${rect.top + 30}px`;
+
+          document.body.appendChild(particle);
+
+          setTimeout(() => { particle.remove(); }, 2800);
+        }, i * 45);
+      }
+    }
+
+    function triggerFallingPetals(count = 15) {
+      const petalTypes = ['🌸', '🌺', '🌹', '✨', '💕', '🍃'];
+      for (let i = 0; i < count; i++) {
+        setTimeout(() => {
+          const petal = document.createElement('div');
+          petal.className = 'falling-petal text-lg md:text-2xl';
+          petal.innerText = petalTypes[Math.floor(Math.random() * petalTypes.length)];
+          petal.style.left = `${Math.random() * 95}%`;
+          petal.style.animationDuration = `${Math.random() * 3 + 4}s`;
+          document.body.appendChild(petal);
+
+          setTimeout(() => { petal.remove(); }, 7000);
+        }, i * 120);
+      }
+    }
+
+    function showFlowerToast(message, icon = '🌸') {
+      toastIcon.innerText = icon;
+      toastMessage.innerText = message;
+      flowerToast.style.opacity = '1';
+      flowerToast.style.transform = 'translate(-50%, 0)';
+
+      if (toastTimeout) clearTimeout(toastTimeout);
+      toastTimeout = setTimeout(() => {
+        flowerToast.style.opacity = '0';
+        flowerToast.style.transform = 'translate(-50%, -16px)';
+      }, 3000);
+    }
+
+    /* Event Handlers */
+    if (showerPetalsBtn) {
+      showerPetalsBtn.addEventListener('click', () => {
+        playPopSound();
+        triggerFallingPetals(25);
+        showFlowerToast('Rose petals falling just for you! 🌹', '💖');
+      });
+    }
+
+    document.querySelectorAll('.flower-head').forEach((flower) => {
+      flower.addEventListener('click', (e) => {
+        e.stopPropagation();
+        playPopSound();
+        const msg = flower.getAttribute('data-msg') || "You are loved beyond words! 💕";
+        const randomEmojis = ['🌸', '🌹', '💖', '💐', '✨', '🌷'];
+        const emoji = randomEmojis[Math.floor(Math.random() * randomEmojis.length)];
+        showFlowerToast(msg, emoji);
+
+        flower.style.transition = 'transform 0.2s cubic-bezier(0.34, 1.56, 0.64, 1)';
+        flower.style.transform = 'scale(1.25)';
+        setTimeout(() => { flower.style.transform = ''; }, 250);
+      });
+    });
+
+    function initBgSparkles() {
+      for (let i = 0; i < 20; i++) {
+        const sparkle = document.createElement('div');
+        sparkle.className = 'absolute rounded-full bg-white opacity-40 pointer-events-none';
+        const size = Math.random() * 5 + 2;
+        sparkle.style.width = `${size}px`;
+        sparkle.style.height = `${size}px`;
+        sparkle.style.left = `${Math.random() * 100}%`;
+        sparkle.style.top = `${Math.random() * 100}%`;
+        sparkle.style.boxShadow = '0 0 10px white';
+        sparkle.style.animation = `floatUp ${Math.random() * 4 + 3}s infinite alternate ease-in-out`;
+        bgSparkles.appendChild(sparkle);
+      }
+    }
+
+    initBgSparkles();
+  </script>
+</body>
+</html>
